@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Albums</title>
+        <meta charset="utf-8">
+        <style>
+            body {
+            background-color: #2C2C2C;
+            color: #FAF9F6;
+            font-size: 1.2em;
+            }
+        </style>
+    </head>
+<body>
+    <h1>Albums</h1>
+
+    {% for album in albums %}
+        <div>
+            <p>Title: {{ album.title }}</p>
+            <p>Released: {{ album.release_year }}</p>
+            <br>
+        </div>
+    {% endfor %}
+
+</body>
+</html>

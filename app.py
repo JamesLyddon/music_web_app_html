@@ -1,6 +1,11 @@
 import os
 from flask import Flask, request, render_template
 from lib.database_connection import get_flask_database_connection
+from lib.album import Album
+from lib.artist import Artist
+from lib.album_repository import AlbumRepository
+from lib.artist_repository import ArtistRepository                     
+from flask import request, jsonify
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -20,6 +25,71 @@ def get_emoji():
     # But first, it gets processed to look for placeholders like {{ emoji }}
     # These placeholders are replaced with the values we pass in as arguments
     return render_template('emoji.html', emoji=':)')
+
+# === previous challenge ===
+# @app.route('/albums', methods=['GET'])
+# def get_all_albums():
+#     connection = get_flask_database_connection(app)                # <-- New code!
+#     repository = AlbumRepository(connection)                        # <-- New code!
+#     albums = repository.all()
+
+#     album_dicts = [album.to_dict() for album in albums]
+#     return jsonify(album_dicts)
+
+@app.route('/albums', methods=['POST'])
+def post_new_album():
+    connection = get_flask_database_connection(app)                # <-- New code!
+    repository = AlbumRepository(connection)                        # <-- New code!
+    title = request.form.get('title')
+    release_year = request.form.get('release_year')
+    artist_id = request.form.get('artist_id')
+    album = Album(None, title, release_year, artist_id)
+    repository.create(album)
+    return "", 200
+
+# === Challenge ===
+
+@app.route('/artists', methods=['GET'])
+def get_all_artists():
+    connection = get_flask_database_connection(app)
+    repository = ArtistRepository(connection)
+    artists = repository.all()
+    
+    artist_dicts = [artist.to_dict() for artist in artists]
+    return jsonify(artist_dicts), 200
+
+@app.route('/artists', methods=['POST'])
+def post_new_artist():
+    connection = get_flask_database_connection(app)
+    repository = ArtistRepository(connection)
+    name = request.form.get('name')
+    genre = request.form.get('genre')
+    artist = Artist(None, name, genre)
+    repository.create(artist)
+    return "", 200
+
+# === exercise routes ===
+# === challenge routes ===
+
+@app.route('/albums', methods=['GET'])
+def get_albums_page():
+    connection = get_flask_database_connection(app)                # <-- New code!
+    repository = AlbumRepository(connection)                        # <-- New code!
+    albums = repository.all()
+    return render_template('albums.html', albums=albums)
+
+@app.route('/albums/<id>', methods=['GET'])
+def get_album_page(id):
+    connection = get_flask_database_connection(app)                # <-- New code!
+    repository = AlbumRepository(connection)                        # <-- New code!
+    album = repository.find_with_artist(id)
+    return render_template('album.html', album=album)
+
+
+
+
+
+
 
 # This imports some more example routes for you to see how they work
 # You can delete these lines if you don't need them.
