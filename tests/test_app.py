@@ -1,7 +1,8 @@
 from playwright.sync_api import Page, expect
 
 # === exercise tests ===
-def test_get_albums_page(page, test_web_address):
+def test_get_albums_page(page, test_web_address, db_connection):
+    db_connection.seed("seeds/music_library.sql")
     page.goto(f"http://{test_web_address}/albums")
 
     div_items = page.locator('div')
@@ -23,7 +24,8 @@ def test_get_albums_page(page, test_web_address):
 
 # === challenge ===
 # Test-drive and implement a route that returns the HTML content for a single album
-def test_get_album_page(page, test_web_address):
+def test_get_album_page(page, test_web_address, db_connection):
+    db_connection.seed("seeds/music_library.sql")
     page.goto(f"http://{test_web_address}/albums/1")
 
     div_items = page.locator('div')
@@ -33,7 +35,8 @@ def test_get_album_page(page, test_web_address):
     ])
 
 # Add a route GET /artists which returns an HTML page with the list of artists. This page should contain a link for each artist listed, linking to /artists/<id> where <id> needs to be the corresponding artist id.
-def test_get_artists_page(page, test_web_address):
+def test_get_artists_page(page, test_web_address, db_connection):
+    db_connection.seed("seeds/music_library.sql")
     page.goto(f"http://{test_web_address}/artists")
 
     div_items = page.locator('div')
@@ -47,7 +50,8 @@ def test_get_artists_page(page, test_web_address):
 
 # Add a route GET /artists/<id> which returns an HTML page showing details for a single artist.
 
-def test_get_artist_page(page, test_web_address):
+def test_get_artist_page(page, test_web_address, db_connection):
+    db_connection.seed("seeds/music_library.sql")
     page.goto(f"http://{test_web_address}/artists/1")
     
     div_items = page.locator('div')
