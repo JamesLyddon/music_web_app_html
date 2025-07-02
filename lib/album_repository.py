@@ -18,8 +18,10 @@ class AlbumRepository:
         return Album(row['id'], row['title'], row['release_year'], row['artist_id'])
 
     def create(self, album):
-        self._connection.execute('INSERT INTO albums (title, release_year, artist_id) VALUES (%s, %s, %s)', [album.title, album.release_year, album.artist_id])
-        return None
+        rows = self._connection.execute('INSERT INTO albums (title, release_year, artist_id) VALUES (%s, %s, %s) RETURNING id', [album.title, album.release_year, album.artist_id])
+        row = rows[0]
+        album.id = row["id"]
+        return album
     
     def delete(self, album_id):
         self._connection.execute('DELETE FROM albums WHERE id = %s', [album_id])

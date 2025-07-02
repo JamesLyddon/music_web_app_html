@@ -59,3 +59,39 @@ def test_get_artist_page(page, test_web_address, db_connection):
     expect(div_items).to_have_text([
         "Pixies Genre: Rock back to artists"
     ])
+
+"""
+When we create a new album
+We see it in the albums index
+"""
+def test_create_album(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/albums")
+    page.click("text=Add a new album")
+
+    page.fill("input[name=title]", "Voyage")
+    page.fill("input[name=release_year]", "2021")
+    page.fill("input[name=artist_id]", "2")
+
+    page.click("text=Create Album")
+
+    title_element = page.locator(".t-title")
+    expect(title_element).to_have_text("Voyage")
+
+    release_year_element = page.locator(".t-release-year")
+    expect(release_year_element).to_have_text("Release year: 2021")
+
+    artist_name_element = page.locator(".t-artist-name")
+    expect(artist_name_element).to_have_text("Artist: ABBA")
+    
+"""
+If we create a new album without a title, release_year, or artist_id
+We see an error message
+"""
+def test_create_book_error(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/albums")
+    page.click("text=Add a new album")
+    page.click("text=Create Album")
+    errors = page.locator(".t-errors")
+    expect(errors).to_have_text("There were errors with your submission: Title can't be blank, Release Year can't be blank, Artist ID can't be blank")

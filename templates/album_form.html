@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div>
+        <h1>Add Album</h1>
+            <form action="/albums" method="POST">
+                {% if errors %}
+                    <p class="t-errors">
+                        There were errors with your submission: {{ errors | safe }}
+                    </p>
+                {% endif %}
+                <p>
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title">
+                </p>
+                <p>
+                    <label for="release_year">Release Year</label>
+                    <input type="text" name="release_year" id="release_year">
+                </p>
+                <p>
+                    <label for="artist_id">Artist ID</label>
+                    <input type="text" name="artist_id" id="artist_id">
+                </p>
+                <p>
+                    <input type="submit" value="Create Album">
+                </p>
+            </form>
+    </div>
+{% endblock %}
