@@ -64,3 +64,4 @@ def test_delete_record(db_connection):
         Artist(2, "ABBA", "Pop"),
         Artist(4, "Nina Simone", "Jazz"),
     ]
+    db_connection.seed("seeds/music_library.sql")

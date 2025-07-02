@@ -1,23 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Albums</title>
-        <meta charset="utf-8">
-        <style>
-            body {
-            background-color: #2C2C2C;
-            color: #FAF9F6;
-            font-size: 1.2em;
-            }
-        </style>
-    </head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
     <div>
         <h1>{{album.title}}</h1>
         <p>
         Release year: {{album.release_year}}
         Artist: {{album.artist_name}}
         </p>
+        <a href="/albums">back to albums</a>
     </div>
-</body>
-</html>
+{% endblock %}

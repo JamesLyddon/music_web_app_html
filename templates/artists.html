@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Artists</h1>
+    <hr>
+    {% for artist in artists %}
+        <div>
+            <p>Name: {{ artist.name }}</p>
+            <p>Genre: {{ artist.genre }}</p>
+            <a href="/artists/{{artist.id}}">go to artist</a>
+            <hr>
+        </div>
+    {% endfor %}
+{% endblock %}
