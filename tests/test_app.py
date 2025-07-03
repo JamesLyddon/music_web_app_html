@@ -49,7 +49,6 @@ def test_get_artists_page(page, test_web_address, db_connection):
     ])
 
 # Add a route GET /artists/<id> which returns an HTML page showing details for a single artist.
-
 def test_get_artist_page(page, test_web_address, db_connection):
     db_connection.seed("seeds/music_library.sql")
     page.goto(f"http://{test_web_address}/artists/1")
@@ -60,6 +59,7 @@ def test_get_artist_page(page, test_web_address, db_connection):
         "Pixies Genre: Rock back to artists"
     ])
 
+# === new album exercise ===
 """
 When we create a new album
 We see it in the albums index
@@ -95,3 +95,8 @@ def test_create_book_error(db_connection, page, test_web_address):
     page.click("text=Create Album")
     errors = page.locator(".t-errors")
     expect(errors).to_have_text("There were errors with your submission: Title can't be blank, Release Year can't be blank, Artist ID can't be blank")
+
+# === new artist exercise ===
+
+
+
