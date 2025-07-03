@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div>
+        <h1>Add Artist</h1>
+            <form action="/artists" method="POST">
+                {% if errors %}
+                    <p class="t-errors">
+                        There were errors with your submission: {{ errors | safe }}
+                    </p>
+                {% endif %}
+                <p>
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name">
+                </p>
+                <p>
+                    <label for="genre">Genre</label>
+                    <input type="text" name="genre" id="genre">
+                </p>
+                <p>
+                    <input type="submit" value="Create Artist">
+                </p>
+            </form>
+    </div>
+{% endblock %}

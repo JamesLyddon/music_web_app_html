@@ -68,11 +68,27 @@ def get_artist_page(id):
     artist = repository.find(id)
     return render_template('artist.html', artist=artist)
 
+@app.route('/artists/new', methods=['GET'])
+def get_new_artist_page():
+    return render_template('artist_form.html')
 
+@app.route('/artists', methods=['POST'])
+def create_artist():
+    connection = get_flask_database_connection(app)
+    repository = ArtistRepository(connection)
 
+    name = request.form.get('name')
+    genre = request.form.get('genre')
+    
+    artist = Artist(None, name, genre)
+    
+    # Check for validity and if not valid, show the form again with errors
+    if not artist.is_valid():
+        return render_template('artist_form.html', artist=artist, errors=artist.generate_errors()), 400
 
-
-
+    artist = repository.create(artist)
+    
+    return redirect(f'/artists/{artist.id}')
 
 
 

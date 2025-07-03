@@ -88,7 +88,7 @@ def test_create_album(db_connection, page, test_web_address):
 If we create a new album without a title, release_year, or artist_id
 We see an error message
 """
-def test_create_book_error(db_connection, page, test_web_address):
+def test_create_album_error(db_connection, page, test_web_address):
     db_connection.seed("seeds/music_library.sql")
     page.goto(f"http://{test_web_address}/albums")
     page.click("text=Add a new album")
@@ -96,7 +96,34 @@ def test_create_book_error(db_connection, page, test_web_address):
     errors = page.locator(".t-errors")
     expect(errors).to_have_text("There were errors with your submission: Title can't be blank, Release Year can't be blank, Artist ID can't be blank")
 
-# === new artist exercise ===
+# === new artist chellenge ===
+"""
+When we create a new artist
+We see it in the artists index
+"""
+def test_create_artist(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/artists")
+    page.click("text=Add a new artist")
 
+    page.fill("input[name=name]", "Chumbawamba")
+    page.fill("input[name=genre]", "Alternative")
 
+    page.click("text=Create Artist")
+    
+    name_element = page.locator(".t-name")
+    expect(name_element).to_have_text("Chumbawamba")
 
+    genre_element = page.locator(".t-genre")
+    expect(genre_element).to_have_text("Genre: Alternative")
+"""
+If we create a new artist without a name, or genre
+We see an error message
+"""
+def test_create_artist_error(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/artists")
+    page.click("text=Add a new artist")
+    page.click("text=Create Artist")
+    errors = page.locator(".t-errors")
+    expect(errors).to_have_text("There were errors with your submission: Name can't be blank, Genre can't be blank")
